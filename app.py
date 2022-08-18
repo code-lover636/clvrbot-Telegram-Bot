@@ -1,8 +1,17 @@
 import telegram.ext
-import riddles
+import random, csv
 
 apiKey = "5705845471:AAESaX_49hrcG1PA2YgoCED0xYs9Fth5D9A"
 question = tuple()
+
+def random_riddle():
+    with open("riddle.csv","r") as f:
+        r = list(csv.reader(f))
+        qns = random.choice(r)
+        print(qns[1])
+        qns[2] = qns[2].replace("(", "").replace(")", "")
+        print(qns[2])
+        return qns
 
 def start(update, context):
     msg = """
@@ -34,7 +43,7 @@ Creator & Owner: Aravind Ashokan
 
 def ask(update, context):
     global question
-    question = riddles.random_riddle()
+    question = random_riddle()
     update.message.reply_text(question[1])
     
 def answer(update, context):
