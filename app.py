@@ -2,7 +2,6 @@ import telegram.ext
 import random, csv
 
 apiKey = "5705845471:AAESaX_49hrcG1PA2YgoCED0xYs9Fth5D9A"
-question = tuple()
 
 def random_riddle():
     with open("riddle.csv","r") as f:
@@ -42,15 +41,19 @@ Creator & Owner: Aravind Ashokan
     update.message.reply_text(msg)
 
 def ask(update, context):
-    global question
     question = random_riddle()
+    with open("answer.csv","w",newline="") as f1:
+        writer = csv.writer(f1)
+        writer.writerows(question)
     update.message.reply_text(question[1])
     
 def answer(update, context):
-    global question
-    if len(question) == 0:
-        update.message.reply_text("I haven't asked any riddle yet. Type /ask to ask a riddle.")
-    update.message.reply_text(question[2])
+    with open("answer.csv","r") as f:
+        r = list(csv.reader(f))
+        if len(r) == 0:
+            update.message.reply_text("I haven't asked any riddle yet. Type /ask to ask a riddle.")
+        else: 
+            update.message.reply_text(r[2])
     
 updater = telegram.ext.Updater(apiKey, use_context=True)
 disp = updater.dispatcher
