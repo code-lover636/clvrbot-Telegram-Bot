@@ -7,9 +7,7 @@ def random_riddle():
     with open("riddle.csv","r") as f:
         r = list(csv.reader(f))
         qns = random.choice(r)
-        print(qns[1])
         qns[2] = qns[2].replace("(", "").replace(")", "")
-        print(qns[2])
         return qns
 
 def start(update, context):
@@ -44,7 +42,7 @@ def ask(update, context):
     question = random_riddle()
     with open("answer.csv","w",newline="") as f1:
         writer = csv.writer(f1)
-        writer.writerows(question)
+        writer.writerow(question)
     update.message.reply_text(question[1])
     
 def answer(update, context):
@@ -53,7 +51,7 @@ def answer(update, context):
         if len(r) == 0:
             update.message.reply_text("I haven't asked any riddle yet. Type /ask to ask a riddle.")
         else: 
-            update.message.reply_text(r[2])
+            update.message.reply_text(r[0][2])
     
 updater = telegram.ext.Updater(apiKey, use_context=True)
 disp = updater.dispatcher
