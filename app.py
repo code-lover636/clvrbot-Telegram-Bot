@@ -52,5 +52,5 @@ disp.add_handler(telegram.ext.CommandHandler("about", about))
 disp.add_handler(telegram.ext.CommandHandler("ask", ask))
 disp.add_handler(telegram.ext.CommandHandler("answer", answer))
 
- updater.start_polling()
+updater.start_polling()
 updater.idle()
